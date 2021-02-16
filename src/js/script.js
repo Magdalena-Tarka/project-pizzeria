@@ -217,7 +217,7 @@
       const thisWidget = this;
         
       thisWidget.getElements(element);
-      thisWidget.initActions(event);
+      thisWidget.initActions();
       thisWidget.value = thisWidget.input.value;
       thisWidget.setValue(settings.amountWidget.defaultValue);
         
