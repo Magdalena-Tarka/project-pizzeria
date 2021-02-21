@@ -275,20 +275,20 @@
       const thisProduct = this;
         
       const formData = utils.serializeFormToObject(thisProduct.dom.form);
-      console.log('1. formData to:', formData);
+      //console.log('1. formData to:', formData);
         
       const params = {};
        
       //for every category (param)
       for(let paramId in thisProduct.data.params) {
         const param = thisProduct.data.params[paramId];
-        console.log('2. paramId to:', paramId);
+        //console.log('2. paramId to:', paramId);
           
         //create category param in params const eg. params = { ingredients: { name: 'Ingredients', options: {}}}
         params[paramId] = {
           label: param.label,
           options: {}
-        }
+        };
         
         // for every option in this category
         for(let optionId in param.options) {
@@ -298,14 +298,12 @@
             
           if(optionSelected) {
             //option is selected!
-            //const cartOption = option.label;
-            //console.log('cartOption to:', cartOption);
             
             params[paramId].options[optionId] = option.label;
           }
         }
       }
-      console.log('params to:', params);
+      //console.log('params to:', params);
         
       return params;
     }
@@ -314,7 +312,6 @@
       const thisProduct = this;
         
       app.cart.add(thisProduct.prepareCartProduct());
-    
     }
   }
     
@@ -420,21 +417,65 @@
         
       /* generate html based on template */
       const generatedHTML = templates.cartProduct(menuProduct);
-      console.log('generatedHTML to:', generatedHTML);
       
       /* create element using utils.createElementFromHtml */
-      //thisCart.element = utils.createDOMFromHTML(generatedHTML);
       const generatedDOM = utils.createDOMFromHTML(generatedHTML);
-      console.log('generatedDOM to:', generatedDOM);
-      
-      /* find menu container */
-      //const menuContainer = document.querySelector(select.containerOf.menu);
       
       /* add element to menu */
-      //menuContainer.appendChild(thisProduct.element);
       thisCart.dom.productList.appendChild(generatedDOM);
         
       console.log('adding product to:', menuProduct);
+        
+      thisCart.products.push(new CartProduct(menuProduct, generatedDOM));
+      console.log('thisCart.products to:', thisCart.products);
+    }
+  }
+    
+  class CartProduct {
+    constructor(menuProduct, element) {
+      const thisCartProduct = this;
+        
+      thisCartProduct.id = menuProduct.id;
+      //console.log('thisCartProduct.id to:', thisCartProduct.id);
+      thisCartProduct.name = menuProduct.name;
+      //console.log('thisCartProduct.name to:', thisCartProduct.name);
+      thisCartProduct.amount = menuProduct.amount;
+      console.log('thisCartProduct.amount to:', thisCartProduct.amount);
+      thisCartProduct.priceSingle = menuProduct.priceSingle;
+      console.log('thisCartProduct.priceSingle to:', thisCartProduct.priceSingle);
+      thisCartProduct.price = menuProduct.price;
+      console.log('thisCartProduct.price to:', thisCartProduct.price);
+      thisCartProduct.params = menuProduct.params;
+      console.log('thisCartProduct.params to:', thisCartProduct.params);
+        
+      thisCartProduct.getElements(element);
+      thisCartProduct.initAmountWidget();
+      console.log('thisCartProduct to:', thisCartProduct);
+    }
+      
+    getElements(element) {
+      const thisCartProduct = this;
+        
+      thisCartProduct.dom = {};
+        
+      thisCartProduct.dom.wrapper = element;
+      thisCartProduct.dom.amountWidget = thisCartProduct.dom.wrapper.querySelector(select.cartProduct.AmountWidget);
+      thisCartProduct.dom.price = thisCartProduct.dom.wrapper.querySelector(select.cartProduct.price);
+      thisCartProduct.dom.edit = thisCartProduct.dom.wrapper.querySelector(select.cartProduct.edit);
+      thisCartProduct.dom.remove = thisCartProduct.dom.wrapper.querySelector(select.cartProduct.remove);
+    }
+      
+    initAmountWidget() {
+      const thisCartProduct = this;
+        
+      thisCartProduct.amountWidget = new AmountWidget(thisCartProduct.dom.amountWidget);
+      console.log('XX. thisCartProduct.amountWidget to:', thisCartProduct.amountWidget);
+        
+      thisCartProduct.dom.amountWidget.addEventListener('update', function() {
+        //thisCartProduct.amount = thisCartProduct.amountWidget.value;
+        //thisCartProduct.price *= thisCartProduct.amount;
+        //thisCartProduct.dom.price.innerHTML
+      });
     }
   }
 
