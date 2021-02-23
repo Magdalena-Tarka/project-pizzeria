@@ -419,6 +419,10 @@
       thisCart.dom.productList.addEventListener('update', function(){
         thisCart.update(); //Dodany kod w celu nasłuchania customowego eventu, który idzie bąbelkuje dzięki bubbles na przodków w górę
       });
+        
+      thisCart.dom.productList.addEventListener('remove', function() {
+        thisCart.remove(event.detail.cartProduct); //w ten sposób odbieramy teraz instancję thisCartProduct i przekazujemy ją do metody thisCart.remove
+      })
     }
       
     add(menuProduct) {
@@ -433,10 +437,10 @@
       /* add element to menu */
       thisCart.dom.productList.appendChild(generatedDOM);
         
-      console.log('adding product to:', menuProduct);
+      //console.log('adding product to:', menuProduct);
         
       thisCart.products.push(new CartProduct(menuProduct, generatedDOM));
-      console.log('thisCart.products to:', thisCart.products);
+      //console.log('thisCart.products to:', thisCart.products);
         
       thisCart.update();
     }
@@ -445,30 +449,30 @@
       const thisCart = this;
         
       let deliveryFee = settings.cart.defaultDeliveryFee;
-      console.log('1. deliveryFee to:', deliveryFee);
+      //console.log('1. deliveryFee to:', deliveryFee);
         
       let totalNumber = 0;
       let subtotalPrice = 0;
       
-      console.log('2. thisCart.products to:', thisCart.products);
+      //console.log('2. thisCart.products to:', thisCart.products);
       
       for(let product of thisCart.products) {
-        console.log('3a. product.amount to:', product.amount);
-        console.log('3a. product.price to:', product.price);
+        //console.log('3a. product.amount to:', product.amount);
+        //console.log('3a. product.price to:', product.price);
           
         if(product) {
           totalNumber = totalNumber + product.amount;
           subtotalPrice = subtotalPrice + product.price;
-          console.log('3b. totalNumber to:', totalNumber);
-          console.log('3b. subtotalPrice to:', subtotalPrice);
+          //console.log('3b. totalNumber to:', totalNumber);
+          //console.log('3b. subtotalPrice to:', subtotalPrice);
         }
         
         thisCart.totalPrice = subtotalPrice;
-        console.log('4. thisCart.totalPrice to:', thisCart.totalPrice);
+        //console.log('4. thisCart.totalPrice to:', thisCart.totalPrice);
         
         if(totalNumber != 0) {
           thisCart.totalPrice += deliveryFee;
-          console.log('5. thisCart.totalPrice to:', thisCart.totalPrice);
+          //console.log('5. thisCart.totalPrice to:', thisCart.totalPrice);
         }
       }
       
@@ -476,9 +480,20 @@
       thisCart.dom.subtotalPrice.innerHTML = subtotalPrice;
       thisCart.dom.totalNumber.innerHTML = totalNumber;
       for(let price of thisCart.dom.totalPrice) {
-        console.log('price to:', price);
+        //console.log('price to:', price);
         price.innerHTML = thisCart.totalPrice;
       }
+    }
+      
+    remove(cartProduct) {
+      const thisCart = this;
+        
+      console.log('1. cartProduct:', cartProduct);
+      console.log('2. thisCart.products:', thisCart.products);
+      
+      cartProduct.dom.wrapper.remove();
+      const indexOfRemovedProduct = thisCart.products.splice(thisCart.products.indexOf(cartProduct), 1);
+      thisCart.update();
     }
   }
     
@@ -497,6 +512,7 @@
         
       thisCartProduct.getElements(element);
       thisCartProduct.initAmountWidget();
+      thisCartProduct.initActions();
     }
       
     getElements(element) {
@@ -521,6 +537,33 @@
         thisCartProduct.amount = thisCartProduct.amountWidget.value;
         thisCartProduct.price *= thisCartProduct.amount;
         thisCartProduct.dom.price.innerHTML = thisCartProduct.price;
+      });
+    }
+      
+    remove() {
+      const thisCartProduct = this;
+        
+      const event = new CustomEvent('remove', {
+        bubbles: true,
+        detail: {
+          cartProduct: thisCartProduct,
+        },
+      });
+        
+      thisCartProduct.dom.wrapper.dispatchEvent(event);
+    }
+      
+    initActions() {
+      const thisCartProduct = this;
+        
+      thisCartProduct.dom.edit.addEventListener('click', function(event) {
+        event.preventDefault();
+      });
+        
+      thisCartProduct.dom.remove.addEventListener('click', function(event) {
+        event.preventDefault();
+        thisCartProduct.remove();
+        console.log('Działa metoda remove!');
       });
     }
   }
