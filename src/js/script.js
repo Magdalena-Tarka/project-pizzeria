@@ -529,14 +529,14 @@
         
       for(let prod of thisCart.products) {
         payload.products.push(prod.getDate());
-      };
+      }
         
       console.log('1. payload:', payload);
     
       const options = {
         method: 'POST',
         headers: {
-          'Content-type': 'aplication/json',
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify(payload),
       };
