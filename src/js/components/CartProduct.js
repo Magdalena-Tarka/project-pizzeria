@@ -1,6 +1,5 @@
 import {select} from '../settings.js';
 import AmountWidget from './AmountWidget.js';
-import Product from './Product.js';
 
 class CartProduct {
   constructor(menuProduct, element) {
