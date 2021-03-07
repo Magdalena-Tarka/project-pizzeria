@@ -1,4 +1,4 @@
-import {select, settings} from '../settings.js';    
+import {select, settings} from '../settings.js';
 
 class AmountWidget {
   constructor(element) {
@@ -45,6 +45,7 @@ class AmountWidget {
       bubbles: true //metoda bubbles powoduje, że event bąbelkuje(propagacja) swoim zasięgiem do góry, czyli na rodzica, dziadka itd, w przypadku customowego eventu bąbelkowanie musimy włączyć sami
     });
     thisWidget.element.dispatchEvent(event);
+    //console.log('event:', event);
   }
       
   initActions() {

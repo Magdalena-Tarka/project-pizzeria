@@ -1,18 +1,19 @@
 import {select, classNames, settings, templates} from './settings.js';
 import Product from './components/Product.js'; 
-import Cart from './components/Cart.js';  
+import Cart from './components/Cart.js';
+import Booking from './components/Booking.js';
 
 const app = {
     
   initPages: function() {
     const thisApp = this;
     
-    thisApp.pages = document.querySelector(select.containerOf.pages).children;  // Dzięki temu w tej właściwości znajdą sie wszystkie dzieci contenera stron
+    thisApp.pages = document.querySelector(select.containerOf.pages).children;  // Wszystkie dzieci konterera podstron
     thisApp.navLinks = document.querySelectorAll(select.nav.links);
       
     const idFromHash = window.location.hash.replace('#/', '');
       
-    let pageMatchingHash = thisApp.pages[0].id;
+    let pageMatchingHash = thisApp.pages[0].id; // piszemy thisApp.pages[0].id a nie false , bo jakbyśmy wpisali ręcznie niepoprawy hash podstrony to zadna z podstron by sie nie wyświetliła, a tak to wyświetli się pierwsza postrona
       
     for(let page of thisApp.pages) {
       if(page.id == idFromHash) {
@@ -21,7 +22,7 @@ const app = {
       }
     }
     //console.log('pageMatchingHash:', pageMatchingHash);
-    thisApp.activatePage(pageMatchingHash);
+    thisApp.activatePage(pageMatchingHash); // Tu piszemy. kt z postr ma się wyświetlać pierwsza
       
     for(let link of thisApp.navLinks) {
       link.addEventListener('click', function(event) {
@@ -35,7 +36,7 @@ const app = {
         thisApp.activatePage(id);
           
         /* change URL hash */
-        window.location.hash = '#/' + id;
+        window.location.hash = '#/' + id;  // Dodajemy /, żeby zlikwidować domyślne działania przeglądarki, tzn zeby po odświeżeniu nie zjeżdżało okno w dół do miejsca gdzie zaczyna element o nazwie #order
       });
     }
   },
@@ -94,11 +95,20 @@ const app = {
         
     const cartElem = document.querySelector(select.containerOf.cart);
     thisApp.cart = new Cart(cartElem);
+    //console.log('cart to:', cart);
         
     thisApp.productList = document.querySelector(select.containerOf.menu);
     thisApp.productList.addEventListener('add-to-cart', function(event) {
       app.cart.add(event.detail.product);
     });
+  },
+
+  initBooking: function() {
+    const thisApp = this;
+
+    const bookingElem = document.querySelector(select.containerOf.booking);
+    thisApp.booking = new Booking(bookingElem);
+    console.log('bookingElem:', bookingElem);
   },
     
   init: function() {
@@ -113,6 +123,7 @@ const app = {
     thisApp.initData();
     //thisApp.initMenu();
     thisApp.initCart();
+    thisApp.initBooking();
   },
 };
     

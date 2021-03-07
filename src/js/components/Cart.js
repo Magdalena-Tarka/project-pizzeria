@@ -63,7 +63,7 @@ class Cart {
       
     /* create element using utils.createElementFromHtml */
     const generatedDOM = utils.createDOMFromHTML(generatedHTML);
-    console.log('generatedDOM:', generatedDOM);
+    //console.log('generatedDOM:', generatedDOM);
       
     /* add element to menu */
     thisCart.dom.productList.appendChild(generatedDOM);
@@ -78,11 +78,13 @@ class Cart {
     
   update() {
     const thisCart = this;
+    console.log('1a. thisCart to:', thisCart);
         
     thisCart.deliveryFee = settings.cart.defaultDeliveryFee;
-    //console.log('1. deliveryFee to:', deliveryFee);
+    //console.log('1b. deliveryFee to:', deliveryFee);
         
     thisCart.totalNumber = 0;
+    //console.log('1c. totalNumber to:', totalNumber);
     thisCart.subtotalPrice = 0;
       
     //console.log('2. thisCart.products to:', thisCart.products);
@@ -112,6 +114,7 @@ class Cart {
     thisCart.dom.deliveryFee.innerHTML = thisCart.deliveryFee;
     thisCart.dom.subtotalPrice.innerHTML = thisCart.subtotalPrice;
     thisCart.dom.totalNumber.innerHTML = thisCart.totalNumber;
+    //console.log('4. totalNumber to:', totalNumber); 
     for(let price of thisCart.dom.totalPrice) {
       //console.log('price to:', price);
       price.innerHTML = thisCart.totalPrice;
