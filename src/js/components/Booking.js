@@ -269,11 +269,13 @@ class Booking {
     };
         
     fetch(url, options)
-      .then(function(response) {
-        if(response) {
-          thisBooking.makeBooked(payload.date, payload.hour, payload.duration, payload.table);
-          thisBooking.updateDOM();   // Odświeżamy widok za pomoca tej metody
-        }
+      .then(function(response){
+        return response.json();
+      })
+      .then(function(parsedResponse){
+        thisBooking.makeBooked(parsedResponse.date, parsedResponse.hour, parsedResponse.duration, parsedResponse.table);
+        thisBooking.resetTables();
+        thisBooking.updateDOM();   // Odświeżamy widok za pomoca tej metody
       });
   }
 }
