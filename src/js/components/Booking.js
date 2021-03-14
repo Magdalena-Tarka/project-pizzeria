@@ -82,7 +82,7 @@ class Booking {
     }
 
     const minDate = thisBooking.datePicker.minDate;
-    const maxDate = thisBooking.datePicker.maxDate;
+    const maxDate = thisBooking.datePicker.maxDate; 
 
     for(let item of eventsRepeat) {
       if(item.repeat == 'daily') {
@@ -155,13 +155,13 @@ class Booking {
     
     if(thisBooking.clickedTable.classList.contains('table')) {
 
-      if(!thisBooking.clickedTable.classList.contains('booked')) {   // Jest wolny
+      if(!thisBooking.clickedTable.classList.contains(classNames.booking.tableBooked)) {   // Jest wolny
 
-        if(thisBooking.clickedTable.classList.contains('selected')) {
+        if(thisBooking.clickedTable.classList.contains(classNames.booking.tableSelected)) {
           thisBooking.resetTables();
         } else {
           thisBooking.resetTables();
-          thisBooking.clickedTable.classList.add('selected');
+          thisBooking.clickedTable.classList.add(classNames.booking.tableSelected);
           thisBooking.selectedTable = thisBooking.clickedTableId;
         }
       } else {
@@ -175,7 +175,7 @@ class Booking {
     const thisBooking = this;
 
     for(const table of thisBooking.dom.tables) {
-      table.classList.remove('selected');
+      table.classList.remove(classNames.booking.tableSelected);
       //thisBooking.selectedTable.shift();
     }
   }
@@ -268,9 +268,13 @@ class Booking {
       body: JSON.stringify(payload),
     };
         
-    fetch(url, options);
-
-    //thisBooking.makeBooked(payload.date, payload.hour, payload.duration, payload.table);
+    fetch(url, options)
+      .then(function(response) {
+        if(response) {
+          thisBooking.makeBooked(payload.date, payload.hour, payload.duration, payload.table);
+          thisBooking.updateDOM();   // Odświeżamy widok za pomoca tej metody
+        }
+      });
   }
 }
 
