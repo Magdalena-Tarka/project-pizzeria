@@ -46,7 +46,6 @@ const app = {
     const thisApp = this;
       
     /* add class "active" to matching pages,remove from non-matching */
-      
     for(let page of thisApp.pages) {   // W .toggle za pomoca drugiego argumentu możemy kontrolować to czy klasa zostanie nadana, czy nie!! Możemy tu użyć warunku takiego jak w bloku if!!
       page.classList.toggle(classNames.pages.active, page.id == pageId);
     }
@@ -117,7 +116,7 @@ const app = {
 
     const homePageElem = document.querySelector(select.containerOf.homePage);
     thisApp.homePage = new HomePage(homePageElem);
-    console.log('homePageElem:', homePageElem);
+    //console.log('homePageElem:', homePageElem);
   },
     
   init: function() {
@@ -138,3 +137,5 @@ const app = {
 };
     
 app.init();
+
+export default app;

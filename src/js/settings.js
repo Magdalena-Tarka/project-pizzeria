@@ -71,6 +71,10 @@ export const select = {
     form: '.booking-form',
     starters: '[name="starter"]',
   },
+  homePage: {
+    boxLinksWrapper: '.links-wrapper',
+  },
+
   nav: {
     links: '.main-nav a',
   },
