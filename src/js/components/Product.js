@@ -101,7 +101,6 @@ class Product {
       
     //convert form to object structure e.g. { sauce: ['tomato'], topping: ['olives', 'redPeppers']}
     const formData = utils.serializeFormToObject(thisProduct.dom.form);
-    //console.log('1. formData to:', formData);
         
     //set price to default price
     let price = thisProduct.data.price;
@@ -109,17 +108,13 @@ class Product {
     for(let paramId in thisProduct.data.params) {
       //determine param value. e.g. paramId = 'toppings', param = { label: 'Toppings', type: 'checkboxes'... }
       const param = thisProduct.data.params[paramId];
-      //console.log('2. paramId to:', paramId, '2a. i params to:', param);
           
       //for every option in this category
       for(let optionId in param.options) {
         const option = param.options[optionId];
-        //console.log('3. optionId to:', optionId, '3a. option to:', option);
-    
             
         // check if there is param with a name of paramId in formData and if it includes optionId
         const optionSelected = formData[paramId] && formData[paramId].includes(optionId);
-        //console.log('4. formData[paramId] to:', formData[paramId], '4a. i optionSelected to:', optionSelected);
             
         if(optionSelected) {
           // check if the option is not default
@@ -191,14 +186,12 @@ class Product {
     const thisProduct = this;
         
     const formData = utils.serializeFormToObject(thisProduct.dom.form);
-    //console.log('formData to:', formData);
         
     const params = {};
        
     //for every category (param)
     for(let paramId in thisProduct.data.params) {
       const param = thisProduct.data.params[paramId];
-      //console.log('param to:', param);
           
       //create category param in params const eg. params = { ingredients: { name: 'Ingredients', options: {}}}
       params[paramId] = {
