@@ -1,1 +1,1 @@
-https://my-pizzeria-project.herokuapp.com/#/booking
+https://my-pizzeria-project.herokuapp.com
